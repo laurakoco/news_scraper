@@ -12,7 +12,7 @@ import time
 
 delay = 2 # wait 5 seconds between scraping articles
 
-date = datetime.datetime.now().strftime("%Y-%m-%d")
+date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
 
 class scraper:
 
@@ -127,7 +127,7 @@ def politico_run():
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    #date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # election
     politico_election = politico(data)
@@ -175,7 +175,6 @@ def politico_run():
     politico_health.scrape()
     politico_business.scrape()
     politico_env.scrape()
-
 
     filepath = 'politico/politico-'+date+'.json'
     with open(filepath, 'w') as outfile:

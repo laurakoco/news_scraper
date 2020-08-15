@@ -8,7 +8,7 @@ def nyp_run():
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # business
     nyp_business = nyp(data)

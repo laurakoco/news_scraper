@@ -8,7 +8,7 @@ def fox_run():
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # us
     fox_us = fox(data)

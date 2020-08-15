@@ -8,7 +8,7 @@ def vox_run():
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
 
     # politics
     vox_politics = vox(data)

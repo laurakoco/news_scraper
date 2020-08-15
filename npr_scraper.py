@@ -3,14 +3,12 @@ import json
 import datetime
 from scraper import *
 
-
-
 def npr_run():
 
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # election
     npr_election = npr(data)

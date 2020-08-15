@@ -8,7 +8,7 @@ def washpost_run():
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # politics
     washpost_politics = washpost(data)
@@ -62,14 +62,14 @@ def washpost_run():
     washpost_politics.scrape()
     washpost_business.scrape()
 
-    # washpost_election.scrape()
+    washpost_election.scrape()
 
     washpost_tech.scrape()
     washpost_science.scrape()
 
-    #washpost_health.scrape()
+    washpost_health.scrape()
 
-    # washpost_env.scrape()
+    washpost_env.scrape()
 
     filepath = 'washpost/washpost-'+date+'.json'
     with open(filepath, 'w') as outfile:

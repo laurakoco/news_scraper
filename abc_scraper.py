@@ -12,7 +12,7 @@ import time
 
 delay = 0 # wait 5 seconds between scraping articles
 
-date = datetime.datetime.now().strftime("%Y-%m-%d")
+# date = datetime.datetime.now().strftime("%Y-%m-%d")
 
 class abc_scraper:
 

@@ -8,7 +8,7 @@ def bh_run():
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # politics
     bh_politics = bh(data)

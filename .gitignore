@@ -3,6 +3,10 @@
 .xml
 .iml
 .csv
+.idea
+.pyc
+
+.idea/*
 
 abc/*
 ap/*
@@ -12,6 +16,7 @@ cp/*
 dm/*
 guardian/*
 fox/*
+marketwatch/*
 msnbc/*
 npr/*
 nyp/*

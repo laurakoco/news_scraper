@@ -6,7 +6,7 @@ import os
 
 def cp_run():
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     data = {}
     data['articles'] = []

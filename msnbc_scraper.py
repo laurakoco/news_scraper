@@ -13,11 +13,9 @@ import time
 
 delay = 2 # wait 5 seconds between scraping articles
 
-date = datetime.datetime.now().strftime("%Y-%m-%d")
+date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
 
 def msnbc_run():
-
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     data = {}
     data['articles'] = []

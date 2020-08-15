@@ -16,9 +16,7 @@ def plot_things(df):
     x = df['section'].value_counts(normalize=True)
     plt.pie(x.values,labels=list(x.keys()),autopct='%1.1f%%')
 
-
     print('foo')
-
 
 root = '/Users/laura/Documents/GitHub/news_scraper/'
 

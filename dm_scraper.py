@@ -8,7 +8,7 @@ def dm_run():
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # us 2020 election
     dm_election = dm(data)

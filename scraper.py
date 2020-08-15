@@ -8,7 +8,8 @@ import time
 
 delay = 2 # wait 5 seconds between scraping articles
 
-date = datetime.datetime.now().strftime("%Y-%m-%d")
+# date = datetime.datetime.now().strftime("%Y-%m-%d")
+date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
 
 class scraper:
 
@@ -546,14 +547,14 @@ class marketwatch(scraper):
         self.scan_limit = 10
 
         self.publisher = 'marketwatch'
-        self.label = 'center'
+        self.label = 'right-center'
         self.base_url_required = False
         self.base_url = 'n/a'
 
-        self.title_element = 'span'
-        self.article_heading_id = 'tease-card__headline tease-card__title relative'
-        self.article_element = 'h2'
-        self.content_id = 'article-body__content'
+        self.title_element = 'a'
+        self.article_heading_id = 'article__headline'
+        self.article_element = 'h3'
+        self.content_id = 'column column--full article__content'
         self.content_element = 'div'
 
         self.url = 'n/a'

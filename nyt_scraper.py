@@ -8,7 +8,7 @@ def nyt_run():
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # us
     nyt_us = nyt(data)
