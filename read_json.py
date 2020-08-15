@@ -2,21 +2,44 @@
 import pandas as pd
 import json
 import os
+from matplotlib import pyplot as plt
 
-root = '/Users/laura/Documents/GitHub/Thesis/'
+def plot_things(df):
+
+    # percentage of articles per label
+    plt.figure()
+    x = df['label'].value_counts(normalize=True)
+    plt.pie(x.values,labels=list(x.keys()),autopct='%1.1f%%')
+
+    # percentage of articles per section
+    plt.figure()
+    x = df['section'].value_counts(normalize=True)
+    plt.pie(x.values,labels=list(x.keys()),autopct='%1.1f%%')
+
+
+    print('foo')
+
+
+root = '/Users/laura/Documents/GitHub/news_scraper/'
 
 publishers = ['ap',
+              'bh',
               'cnn',
+              'cp',
               'dm',
+              'guardian',
               'fox',
+              'msnbc',
               'npr',
               'nyp',
               'nyt',
+              'politico',
               'reuters',
-              'vox'
+              'vox',
+              'washpost'
 ]
 
-df = pd.DataFrame(columns=['id','publisher','label','title','link','section','data','body'])
+df = pd.DataFrame(columns=['id','publisher','label','title','link','section','date','body'])
 
 for publisher in publishers:
 
@@ -27,9 +50,8 @@ for publisher in publishers:
     files = os.listdir(path)
 
     for file in files:
-        if file == '.DS_Store': # ignore .DS_Store
-            pass
-        else:
+
+        if file == publisher+'.json':
             j_file = file
 
     filepath = path + j_file
@@ -43,9 +65,17 @@ for publisher in publishers:
 
     df = df.append(df_pub)
 
+df = df.drop_duplicates(subset='title')
+df.reset_index()
+
 print(df['publisher'].unique())
 
 print(df)
 
 print(df.shape)
 
+plot_things(df)
+
+# df.to_csv('data.csv',encoding='utf-8-sig',index=False)
+
+plt.show()

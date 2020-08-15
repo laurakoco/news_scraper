@@ -71,51 +71,52 @@ from scraper import *
 #                 'body': final_article
 #             })
 
-def ap_run():
+def guardian_run():
 
     date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     data = {}
     data['articles'] = []
 
+    # politics
+    guardian_politics = guardian(data)
+    guardian_politics.url = 'https://www.theguardian.com/us-news/us-politics'
+    guardian_politics.section = 'politics'
+
+    # us
+    guardian_us = guardian(data)
+    guardian_us.url = 'https://www.theguardian.com/us-news'
+    guardian_us.section = 'us'
+
     # business
-    ap_business = ap(data)
-    ap_business.url = 'https://apnews.com/apf-business'
-    ap_business.section = 'business'
-    ap_business.article_heading_id = 'CardHeadline headline-0-2-106'
-
-    # us news
-    ap_us = ap(data)
-    ap_us.url = 'https://apnews.com/apf-usnews'
-    ap_us.section = 'us'
-    ap_us.article_heading_id = 'CardHeadline headline-0-2-101'
-
-    # tech
-    ap_tech = ap(data)
-    ap_tech.url = 'https://apnews.com/apf-technology'
-    ap_tech.section = 'tech'
-    ap_tech.article_heading_id = 'CardHeadline headline-0-2-106'
+    guardian_business = guardian(data)
+    guardian_business.url = 'https://www.theguardian.com/us/business'
+    guardian_business.section = 'business'
 
     # science
-    ap_science = ap(data)
-    ap_science.url = 'https://apnews.com/apf-science'
-    ap_science.section = 'science'
-    ap_science.article_heading_id = 'CardHeadline headline-0-2-101'
+    guardian_science = guardian(data)
+    guardian_science.url = 'https://www.theguardian.com/science'
+    guardian_science.section = 'science'
 
-    # health
-    ap_health = ap(data)
-    ap_health.url = 'https://apnews.com/apf-science'
-    ap_health.section = 'health'
-    ap_health.article_heading_id = 'CardHeadline headline-0-2-101'
+    # tech
+    guardian_tech = guardian(data)
+    guardian_tech.url = 'https://www.theguardian.com/us/technology'
+    guardian_tech.section = 'tech'
 
-    data = ap_business.scrape()
-    data = ap_us.scrape()
-    data = ap_tech.scrape()
-    data = ap_science.scrape()
-    data = ap_health.scrape()
+    # envionrment
+    guardian_env = guardian(data)
+    guardian_env.url = 'https://www.theguardian.com/us/environment'
+    guardian_env.section = 'tech'
 
-    filepath = 'ap/ap-'+date+'.json'
+    guardian_politics.scrape()
+    # guardian_us.scrape()
+    # guardian_business.scrape()
+    # guardian_science.scrape()
+    # guardian_tech.scrape()
+    # guardian_env.scrape()
+
+    filepath = 'guardian/guardian-'+date+'.json'
     with open(filepath, 'w') as outfile:
         json.dump(data, outfile, ensure_ascii=False)
 
-ap_run()
+guardian_run()

@@ -3,77 +3,6 @@ import json
 import datetime
 from scraper import *
 
-# class scraper:
-#
-#     def __init__(self):
-#         self.section = 'n/a'
-#         self.url = 'n/a'
-#         self.article_heading_id = 'title'
-#         self.content_id = 'article-body'
-#
-#     def scrape(self):
-#
-#         date = datetime.datetime.now().strftime("%Y-%m-%d")
-#
-#         r1 = requests.get(self.url)
-#         coverpage = r1.content
-#
-#         soup = BeautifulSoup(coverpage, 'html5lib')
-#
-#         coverpage_news = soup.find_all('h2', class_=self.article_heading_id)
-#
-#         number_of_articles = len(coverpage_news)
-#
-#         base_url = 'https://www.foxnews.com'
-#
-#         id = 0
-#
-#         temp_dict = {}
-#         temp_dict['article'] = []
-#
-#         for n in np.arange(0, number_of_articles):
-#
-#             # get title
-#             title = coverpage_news[n].find('a').get_text().strip()
-#
-#             # get link of article
-#             link = coverpage_news[n].find('a')['href']
-#             link = base_url + link
-#
-#             print(title)
-#
-#             # read content (it is divided in paragraphs)
-#             article = requests.get(link)
-#             article_content = article.content
-#             soup_article = BeautifulSoup(article_content, 'html5lib')
-#             body = soup_article.find_all('div', class_=self.content_id)
-#             x = body[0].find_all('p')
-#
-#             # Unifying the paragraphs
-#             list_paragraphs = []
-#             for p in np.arange(0, len(x)):
-#                 paragraph = x[p].get_text()
-#                 paragraph = paragraph.strip('\n')
-#                 list_paragraphs.append(paragraph)
-#                 final_article = " ".join(list_paragraphs)
-#
-#             # news_contents.append(final_article)
-#
-#             temp_dict['article'].append({
-#                 'id': 'fox' + str(id),
-#                 'publisher': 'fox',
-#                 'label': 'right',
-#                 'title': title,
-#                 'section': self.section,
-#                 'link': link,
-#                 'date': date,
-#                 'body': final_article
-#             })
-#
-#             id = id + 1
-#
-#         return temp_dict
-
 def fox_run():
 
     data = {}
@@ -85,6 +14,7 @@ def fox_run():
     fox_us = fox(data)
     fox_us.url = 'https://www.foxnews.com/us'
     fox_us.section = 'us'
+    fox_us.base_url_required = False
 
     # politics
     fox_politics = fox(data)
@@ -111,7 +41,7 @@ def fox_run():
     fox_tech.url = 'https://www.foxnews.com/tech'
     fox_tech.section = 'tech'
 
-    fox_us.scrape()
+    # fox_us.scrape()
     fox_politics.scrape()
     fox_health.scrape()
     fox_science.scrape()

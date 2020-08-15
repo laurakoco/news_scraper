@@ -1,14 +1,23 @@
 
 .DS_Store
+.xml
+.iml
+.csv
 
+abc/*
 ap/*
 bh/*
 cnn/*
+cp/*
 dm/*
+guardian/*
 fox/*
+msnbc/*
 npr/*
 nyp/*
 nyt/*
+politico/*
 reuters/*
 vox/*
-nothing_working/*
+washpost/
+not_working/*

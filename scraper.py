@@ -6,7 +6,7 @@ import datetime
 import re
 import time
 
-delay = 5 # wait 5 seconds between scraping articles
+delay = 2 # wait 5 seconds between scraping articles
 
 date = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -54,6 +54,10 @@ class scraper:
             if self.base_url_required == True:
                 link = self.base_url + link
 
+            if self.publisher == 'nymag': # remove // from beginning of link
+                link = link[2:-1]
+                link = 'http://' + link
+
             print(self.section+': '+title)
 
             # read content
@@ -61,10 +65,20 @@ class scraper:
             article_content = article.content
             soup_article = BeautifulSoup(article_content, 'html5lib')
 
+            # weird unique things
             if self.publisher == 'dm':
                 body = soup_article.find_all(self.content_element, itemprop=self.content_id)
+
+            if self.publisher == 'nymag':
+                if 'article-content inset' in soup_article:
+                    self.content_id = 'article-content inset'
+                if 'article-content inline' in soup_article:
+                    self.content_id = 'article-content inline'
+
             else:
                 body = soup_article.find_all(self.content_element, class_= self.content_id)
+            if len(body) == 0:
+                continue
             x = body[0].find_all('p')
 
             # unify paragraphs
@@ -94,6 +108,7 @@ class scraper:
 
 ## child class
 
+# associated press
 class ap(scraper):
 
   def __init__(self,data):
@@ -101,6 +116,9 @@ class ap(scraper):
         super(ap, self).__init__()
 
         self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 15
 
         self.publisher = 'ap'
         self.label = 'center'
@@ -120,9 +138,12 @@ class npr(scraper):
 
     def __init__(self,data):
 
-        super(ap, self).__init__()
+        super(npr, self).__init__()
 
         self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 15
 
         self.publisher = 'npr'
         self.label = 'left-center'
@@ -143,7 +164,7 @@ class fox(scraper):
 
     def __init__(self,data):
 
-        super(ap, self).__init__()
+        super(fox, self).__init__()
 
         self.data = data
 
@@ -166,7 +187,7 @@ class reuters(scraper):
 
     def __init__(self,data):
 
-        super(ap, self).__init__()
+        super(reuters, self).__init__()
 
         self.data = data
 
@@ -189,7 +210,7 @@ class nyp(scraper):
 
     def __init__(self,data):
 
-        super(ap, self).__init__()
+        super(nyp, self).__init__()
 
         self.data = data
 
@@ -316,7 +337,7 @@ class bh(scraper): # news week
         self.data = data
 
         # self.limit_scans = True
-        # self.scan_limit = 10
+        # self.scan_limit = 20
 
         self.publisher = 'bh'
         self.label = 'right-center'
@@ -332,7 +353,208 @@ class bh(scraper): # news week
         self.url = 'n/a'
         self.section = 'n/a'
 
+# ny mag
+class nymag(scraper):
 
+    def __init__(self,data):
 
+        super(nymag, self).__init__()
 
+        self.data = data
 
+        self.limit_scans = True
+        self.scan_limit = 20
+
+        self.publisher = 'nymag'
+        self.label = 'left'
+        self.base_url_required = False
+        self.base_url = 'n/a'
+
+        self.title_element = 'span'
+        self.article_heading_id = 'main-article-content'
+        self.article_element = 'div'
+        self.content_id = 'article-content inset'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+# cnet
+class cnet(scraper):
+
+    def __init__(self,data):
+
+        super(cnet, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 4
+
+        self.publisher = 'cnet'
+        self.label = 'center'
+        self.base_url_required = True
+        self.base_url = 'https://www.cnet.com'
+
+        self.title_element = 'a'
+        self.article_heading_id = 'c-tileList_tileBlock' # 'c-tileList_tileBlock'
+        self.article_element = 'div'
+        self.content_id = 'col-7 article-main-body row'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+# christian post
+class cp(scraper):
+
+    def __init__(self,data):
+
+        super(cp, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'cp'
+        self.label = 'right'
+        self.base_url_required = True
+        self.base_url = 'https://www.christianpost.com'
+
+        self.title_element = 'a'
+        self.article_heading_id = 'h2'
+        self.article_element = 'h3'
+        self.content_id = 'full-article'
+        self.content_element = 'article'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+# washington post
+class washpost(scraper):
+
+    def __init__(self,data):
+
+        super(washpost, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 5
+
+        self.publisher = 'washpost'
+        self.label = 'left-center'
+        self.base_url_required = False
+        self.base_url = 'https://www.washingtonpost.com'
+
+        self.title_element = 'a'
+        self.article_heading_id = ''
+        self.article_element = 'h2'
+        self.content_id = 'remainder-content'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+# guardian
+class guardian(scraper):
+
+    def __init__(self,data):
+
+        super(guardian, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'guardian'
+        self.label = 'left'
+        self.base_url_required = False
+        self.base_url = 'n/a'
+
+        self.title_element = 'a'
+        self.article_heading_id = 'fc-item__title'
+        self.article_element = 'h3'
+        self.content_id = 'content__article-body from-content-api js-article__body'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+# guardian
+class intercept(scraper):
+
+    def __init__(self,data):
+
+        super(intercept, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'intercept'
+        self.label = 'left-center'
+        self.base_url_required = False
+        self.base_url = 'n/a'
+
+        self.title_element = 'a'
+        self.article_heading_id = 'fc-item__title'
+        self.article_element = 'h3'
+        self.content_id = 'content__article-body from-content-api js-article__body'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+class msnbc(scraper):
+
+    def __init__(self,data):
+
+        super(msnbc, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'msnbc'
+        self.label = 'left'
+        self.base_url_required = False
+        self.base_url = 'n/a'
+
+        self.title_element = 'span'
+        self.article_heading_id = 'tease-card__headline tease-card__title relative'
+        self.article_element = 'h2'
+        self.content_id = 'article-body__content'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+class marketwatch(scraper):
+
+    def __init__(self,data):
+
+        super(marketwatch, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'marketwatch'
+        self.label = 'center'
+        self.base_url_required = False
+        self.base_url = 'n/a'
+
+        self.title_element = 'span'
+        self.article_heading_id = 'tease-card__headline tease-card__title relative'
+        self.article_element = 'h2'
+        self.content_id = 'article-body__content'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
