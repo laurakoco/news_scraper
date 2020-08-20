@@ -10,9 +10,9 @@ import datetime
 import re
 import time
 
-delay = 0 # wait 5 seconds between scraping articles
+delay = 2 # wait 5 seconds between scraping articles
 
-# date = datetime.datetime.now().strftime("%Y-%m-%d")
+date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
 
 class abc_scraper:
 
@@ -54,7 +54,12 @@ class abc_scraper:
             title = coverpage_news[n].find(self.title_element).get_text().strip()
 
             # get link of article
-            link = coverpage_news[n]['href']
+            #link = coverpage_news[n]['href']
+
+            if self.section == 'news':
+                link = coverpage_news[n].find('a')['href']
+            else:
+                link = coverpage_news[n]['href']
 
             if self.base_url_required == True:
                 link = self.base_url + link
@@ -122,10 +127,12 @@ class abc(abc_scraper):
 
 def abc_run():
 
+    print('abc')
+
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    #date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # politics
     abc_politics = abc(data)
@@ -173,10 +180,21 @@ def abc_run():
     abc_us.content_id = 'Article__Column Article__Column--main'
     abc_us.content_element = 'section'
 
+    # new
+    abc_news = abc(data)
+    abc_news.url = 'https://abcnews.go.com/'
+    abc_news.section = 'news'
+    abc_news.article_heading_id = 'headlines-li-div'
+    abc_news.article_element = 'div'
+    abc_news.title_element = 'a'
+    abc_news.content_id = 'Article__Column Article__Column--main'
+    abc_news.content_element = 'section'
+
     abc_politics.scrape()
     abc_health.scrape()
     abc_business.scrape()
     abc_us.scrape()
+    abc_news.scrape()
 
     filepath = 'abc/abc-'+date+'.json'
     with open(filepath, 'w') as outfile:

@@ -6,6 +6,8 @@ from scraper import *
 
 def ap_run():
 
+    print('ap')
+
     # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     data = {}
@@ -41,11 +43,19 @@ def ap_run():
     ap_health.section = 'health'
     ap_health.article_heading_id = 'CardHeadline headline-0-2-101'
 
+    # news
+    ap_news = ap(data)
+    ap_news.url = 'https://apnews.com/'
+    ap_news.section = 'news'
+    ap_news.article_heading_id = 'Component-root-0-2-79'
+    ap_news.title_element = 'div'
+
     ap_business.scrape()
     ap_us.scrape()
     ap_tech.scrape()
     ap_science.scrape()
     ap_health.scrape()
+    ap_news.scrape()
 
     filepath = 'ap/ap-'+date+'.json'
     with open(filepath, 'w') as outfile:

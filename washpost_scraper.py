@@ -5,6 +5,8 @@ from scraper import *
 
 def washpost_run():
 
+    print('washington post')
+
     data = {}
     data['articles'] = []
 
@@ -59,17 +61,21 @@ def washpost_run():
     washpost_env.article_heading_id = ''
     washpost_env.article_element = 'h2'
 
+    # news
+    washpost_news = washpost(data)
+    washpost_news.url = 'https://www.washingtonpost.com/'
+    washpost_news.section = 'news'
+    washpost_news.article_heading_id = 'headline x-small normal-style text-align-inherit'
+    washpost_news.article_element = 'h2'
+
     washpost_politics.scrape()
     washpost_business.scrape()
-
     washpost_election.scrape()
-
     washpost_tech.scrape()
     washpost_science.scrape()
-
     washpost_health.scrape()
-
     washpost_env.scrape()
+    washpost_news.scrape()
 
     filepath = 'washpost/washpost-'+date+'.json'
     with open(filepath, 'w') as outfile:

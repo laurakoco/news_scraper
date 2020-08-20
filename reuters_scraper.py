@@ -5,10 +5,12 @@ from scraper import *
 
 def reuters_run():
 
+    print('reuters')
+
     data = {}
     data['articles'] = []
 
-    date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
 
     # politics
     reuters_politics = reuters(data)
@@ -30,10 +32,16 @@ def reuters_run():
     reuters_tech.url = 'https://www.reuters.com/news/technology'
     reuters_tech.section = 'tech'
 
+    # news
+    reuters_news = reuters(data)
+    reuters_news.url = 'https://www.reuters.com/'
+    reuters_news.section = 'news'
+
     reuters_politics.scrape()
     reuters_business.scrape()
     reuters_us.scrape()
     reuters_tech.scrape()
+    # reuters_news.scrape()
 
     filepath = 'reuters/reuters-'+date+'.json'
     with open(filepath, 'w') as outfile:

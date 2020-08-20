@@ -5,6 +5,8 @@ from scraper import *
 
 def bh_run():
 
+    print('boston herald')
+
     data = {}
     data['articles'] = []
 
@@ -35,11 +37,18 @@ def bh_run():
     bh_health.url = 'https://www.bostonherald.com/news/health/'
     bh_health.section = 'health'
 
+    # news
+    bh_news = bh(data)
+    bh_news.url = 'https://www.bostonherald.com/'
+    bh_news.section = 'news'
+    bh_news.article_element = 'h6'
+
     bh_politics.scrape()
     bh_election.scrape()
     bh_us.scrape()
     bh_business.scrape()
     bh_health.scrape()
+    bh_news.scrape()
 
     filepath = 'bh/bh-'+date+'.json'
     with open(filepath, 'w') as outfile:

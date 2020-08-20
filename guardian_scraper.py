@@ -6,6 +6,8 @@ from scraper import *
 
 def guardian_run():
 
+    print('guardian')
+
     # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     data = {}
@@ -41,12 +43,19 @@ def guardian_run():
     guardian_env.url = 'https://www.theguardian.com/us/environment'
     guardian_env.section = 'tech'
 
+    # news
+    guardian_news = guardian(data)
+    guardian_news.url = 'https://www.theguardian.com/'
+    guardian_news.section = 'news'
+    guardian_news.scan_limit = 25
+
     guardian_politics.scrape()
     guardian_us.scrape()
     guardian_business.scrape()
     guardian_science.scrape()
     guardian_tech.scrape()
     guardian_env.scrape()
+    guardian_news.scrape()
 
     filepath = 'guardian/guardian-'+date+'.json'
     with open(filepath, 'w') as outfile:

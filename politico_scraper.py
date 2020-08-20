@@ -61,7 +61,7 @@ class scraper:
             if self.base_url_required == True:
                 link = self.base_url + link
 
-            print(self.section+': '+title)
+            print(str(n) + ' ' + self.section+': '+title)
 
             # read content
             article = requests.get(link)
@@ -69,6 +69,8 @@ class scraper:
             soup_article = BeautifulSoup(article_content, 'html5lib')
 
             body = soup_article.find_all(self.content_element, class_= self.content_id)
+            if len(body) == 0:
+                continue
             x = body[0].find_all('p')
 
             # unify paragraphs
@@ -124,6 +126,8 @@ class politico(scraper):
 
 def politico_run():
 
+    print('politico')
+
     data = {}
     data['articles'] = []
 
@@ -170,11 +174,21 @@ def politico_run():
     politico_env.limit_scans = True
     politico_env.scan_limit = 8
 
+    # news
+    politico_news = politico(data)
+    politico_news.url = 'https://www.politico.com/'
+    politico_news.section = 'news'
+    politico_news.article_heading_id = 'headline'
+    politico_news.article_element = 'h3'
+    politico_news.limit_scans = True
+    politico_news.scan_limit = 8
+
     politico_election.scrape()
     politico_tech.scrape()
     politico_health.scrape()
     politico_business.scrape()
     politico_env.scrape()
+    politico_news.scrape()
 
     filepath = 'politico/politico-'+date+'.json'
     with open(filepath, 'w') as outfile:

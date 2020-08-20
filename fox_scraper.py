@@ -5,6 +5,8 @@ from scraper import *
 
 def fox_run():
 
+    print('fox')
+
     data = {}
     data['articles'] = []
 
@@ -14,7 +16,7 @@ def fox_run():
     fox_us = fox(data)
     fox_us.url = 'https://www.foxnews.com/us'
     fox_us.section = 'us'
-    fox_us.base_url_required = False
+    fox_us.base_url_required = True
 
     # politics
     fox_politics = fox(data)
@@ -41,11 +43,19 @@ def fox_run():
     fox_tech.url = 'https://www.foxnews.com/tech'
     fox_tech.section = 'tech'
 
-    # fox_us.scrape()
+    # tech
+    fox_news = fox(data)
+    fox_news.url = 'https://www.foxnews.com'
+    fox_news.section = 'news'
+    fox_news.base_url_required = False
+
+    fox_us.scrape()
     fox_politics.scrape()
     fox_health.scrape()
     fox_science.scrape()
     fox_tech.scrape()
+    fox_news.scrape()
+
 
     filepath = 'fox/fox-'+date+'.json'
     with open(filepath, 'w') as outfile:

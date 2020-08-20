@@ -5,6 +5,8 @@ from scraper import *
 
 def nyp_run():
 
+    print('new york post')
+
     data = {}
     data['articles'] = []
 
@@ -16,9 +18,9 @@ def nyp_run():
     nyp_business.section = 'business'
 
     # news
-    # nyp_news = scraper(data)
-    # nyp_news.url = 'https://nypost.com/news/'
-    # nyp_news.section = 'news'
+    nyp_news = nyp(data)
+    nyp_news.url = 'https://nypost.com/news/'
+    nyp_news.section = 'news'
 
     # metro
     nyp_metro = nyp(data)
@@ -31,7 +33,7 @@ def nyp_run():
     nyp_tech.section = 'tech'
 
     nyp_business.scrape()
-    # nyp_news.scrape()
+    nyp_news.scrape()
     nyp_metro.scrape()
     nyp_tech.scrape()
 

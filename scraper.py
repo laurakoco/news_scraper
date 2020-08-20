@@ -6,7 +6,7 @@ import datetime
 import re
 import time
 
-delay = 2 # wait 5 seconds between scraping articles
+delay = 0 # wait 5 seconds between scraping articles
 
 # date = datetime.datetime.now().strftime("%Y-%m-%d")
 date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
@@ -48,9 +48,13 @@ class scraper:
 
             # get title
             title = coverpage_news[n].find(self.title_element).get_text().strip()
+            title = self.format_paragraph(title)
 
             # get link of article
             link = coverpage_news[n].find('a')['href']
+
+            if 'foxbusiness' in link or 'iowa-governor' in link:
+                continue
 
             if self.base_url_required == True:
                 link = self.base_url + link
@@ -59,7 +63,7 @@ class scraper:
                 link = link[2:-1]
                 link = 'http://' + link
 
-            print(self.section+': '+title)
+            print(str(n) + ' ' + self.section+': '+title)
 
             # read content
             article = requests.get(link)
@@ -80,7 +84,12 @@ class scraper:
                 body = soup_article.find_all(self.content_element, class_= self.content_id)
             if len(body) == 0:
                 continue
-            x = body[0].find_all('p')
+
+            if self.publisher == 'refinery29':
+                x = body
+            else:
+                x = body[0].find_all('p')
+
 
             # unify paragraphs
             list_paragraphs = []
@@ -169,6 +178,9 @@ class fox(scraper):
 
         self.data = data
 
+        self.limit_scans = True
+        self.scan_limit = 15
+
         self.publisher = 'fox'
         self.label = 'right'
         self.base_url_required = True
@@ -191,6 +203,9 @@ class reuters(scraper):
         super(reuters, self).__init__()
 
         self.data = data
+
+        self.limit_scans = False
+        self.scan_limit = 15
 
         self.publisher = 'reuters'
         self.label = 'center'
@@ -229,32 +244,7 @@ class nyp(scraper):
         self.url = 'n/a'
         self.section = 'n/a'
 
-# cnn
-class cnn(scraper):
-
-    def __init__(self,data):
-
-        super(cnn, self).__init__()
-
-        self.data = data
-
-        self.limit_scans = True
-        self.scan_limit = 10
-
-        self.publisher = 'cnn'
-        self.label = 'left'
-        self.base_url_required = True
-        self.base_url = 'https://www.cnn.com'
-
-        self.title_element = 'a'
-        self.article_heading_id = 'cd__headline'
-        self.article_element = 'h3'
-        self.content_id = 'l-container'
-        self.content_element = 'div'
-
-        self.url = 'n/a'
-        self.section = 'n/a'
-
+# new york times
 class nyt(scraper):
 
     def __init__(self,data):
@@ -278,7 +268,8 @@ class nyt(scraper):
         self.url = 'n/a'
         self.section = 'n/a'
 
-class dm(scraper): # dailymail
+# dailymail
+class dm(scraper):
 
     def __init__(self,data):
 
@@ -303,7 +294,8 @@ class dm(scraper): # dailymail
         self.url = 'n/a'
         self.section = 'n/a'
 
-class vox(scraper): # vox
+# vox
+class vox(scraper):
 
     def __init__(self,data):
 
@@ -312,7 +304,7 @@ class vox(scraper): # vox
         self.data = data
 
         self.limit_scans = True
-        self.scan_limit = 10
+        self.scan_limit = 15
 
         self.publisher = 'vox'
         self.label = 'left'
@@ -354,57 +346,6 @@ class bh(scraper): # news week
         self.url = 'n/a'
         self.section = 'n/a'
 
-# ny mag
-class nymag(scraper):
-
-    def __init__(self,data):
-
-        super(nymag, self).__init__()
-
-        self.data = data
-
-        self.limit_scans = True
-        self.scan_limit = 20
-
-        self.publisher = 'nymag'
-        self.label = 'left'
-        self.base_url_required = False
-        self.base_url = 'n/a'
-
-        self.title_element = 'span'
-        self.article_heading_id = 'main-article-content'
-        self.article_element = 'div'
-        self.content_id = 'article-content inset'
-        self.content_element = 'div'
-
-        self.url = 'n/a'
-        self.section = 'n/a'
-
-# cnet
-class cnet(scraper):
-
-    def __init__(self,data):
-
-        super(cnet, self).__init__()
-
-        self.data = data
-
-        self.limit_scans = True
-        self.scan_limit = 4
-
-        self.publisher = 'cnet'
-        self.label = 'center'
-        self.base_url_required = True
-        self.base_url = 'https://www.cnet.com'
-
-        self.title_element = 'a'
-        self.article_heading_id = 'c-tileList_tileBlock' # 'c-tileList_tileBlock'
-        self.article_element = 'div'
-        self.content_id = 'col-7 article-main-body row'
-        self.content_element = 'div'
-
-        self.url = 'n/a'
-        self.section = 'n/a'
 
 # christian post
 class cp(scraper):
@@ -484,32 +425,33 @@ class guardian(scraper):
         self.url = 'n/a'
         self.section = 'n/a'
 
-# guardian
-class intercept(scraper):
+# # intercept
+# class intercept(scraper):
+#
+#     def __init__(self,data):
+#
+#         super(intercept, self).__init__()
+#
+#         self.data = data
+#
+#         self.limit_scans = True
+#         self.scan_limit = 10
+#
+#         self.publisher = 'intercept'
+#         self.label = 'left-center'
+#         self.base_url_required = False
+#         self.base_url = 'n/a'
+#
+#         self.title_element = 'a'
+#         self.article_heading_id = 'fc-item__title'
+#         self.article_element = 'h3'
+#         self.content_id = 'content__article-body from-content-api js-article__body'
+#         self.content_element = 'div'
+#
+#         self.url = 'n/a'
+#         self.section = 'n/a'
 
-    def __init__(self,data):
-
-        super(intercept, self).__init__()
-
-        self.data = data
-
-        self.limit_scans = True
-        self.scan_limit = 10
-
-        self.publisher = 'intercept'
-        self.label = 'left-center'
-        self.base_url_required = False
-        self.base_url = 'n/a'
-
-        self.title_element = 'a'
-        self.article_heading_id = 'fc-item__title'
-        self.article_element = 'h3'
-        self.content_id = 'content__article-body from-content-api js-article__body'
-        self.content_element = 'div'
-
-        self.url = 'n/a'
-        self.section = 'n/a'
-
+# msnbc
 class msnbc(scraper):
 
     def __init__(self,data):
@@ -535,6 +477,7 @@ class msnbc(scraper):
         self.url = 'n/a'
         self.section = 'n/a'
 
+# marketwatch
 class marketwatch(scraper):
 
     def __init__(self,data):
@@ -555,6 +498,133 @@ class marketwatch(scraper):
         self.article_heading_id = 'article__headline'
         self.article_element = 'h3'
         self.content_id = 'column column--full article__content'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+# daily caller
+class dc(scraper):
+
+    def __init__(self, data):
+        super(dc, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'dc'
+        self.label = 'right'
+        self.base_url_required = True
+        self.base_url = 'https://dailycaller.com'
+
+        self.title_element = 'a'
+        self.article_heading_id = 'text-black mb-4 leading-tight text-2xl'
+        self.article_element = 'h2'
+        self.content_id = 'article-content mb-2 pb-2 tracking-tight'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+
+# ohio star
+class ohio(scraper):
+
+    def __init__(self, data):
+        super(ohio, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'ohio'
+        self.label = 'right'
+        self.base_url_required = False
+        self.base_url = 'https://theohiostar.com'
+
+        self.title_element = 'a'
+        self.article_heading_id = 'entry-title'
+        self.article_element = 'h2'
+        self.content_id = 'entry-content'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+# chicago tribune
+class chicago(scraper):
+
+    def __init__(self, data):
+        super(chicago, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'chicago'
+        self.label = 'right-center'
+        self.base_url_required = True
+        self.base_url = 'https://www.chicagotribune.com'
+
+        self.title_element = 'a'
+        self.article_heading_id = 'r-mb h5-mb h5'
+        self.article_element = 'h2'
+        self.content_id = 'clln clln-crd oflw cs__ctn__border-bottom'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+# people
+class people(scraper):
+
+    def __init__(self, data):
+        super(people, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'people'
+        self.label = 'left'
+        self.base_url_required = False
+        self.base_url = ''
+
+        self.title_element = 'h3'
+        self.article_heading_id = 'category-page-item-content'
+        self.article_element = 'div'
+        self.content_id = 'paragraph'
+        self.content_element = 'div'
+
+        self.url = 'n/a'
+        self.section = 'n/a'
+
+
+# tennessee
+class tennessee(scraper):
+
+    def __init__(self, data):
+        super(tennessee, self).__init__()
+
+        self.data = data
+
+        self.limit_scans = True
+        self.scan_limit = 10
+
+        self.publisher = 'tennessee'
+        self.label = 'right'
+        self.base_url_required = False
+        self.base_url = ''
+
+        self.title_element = 'a'
+        self.article_heading_id = 'entry-title'
+        self.article_element = 'h2'
+        self.content_id = 'entry-content'
         self.content_element = 'div'
 
         self.url = 'n/a'

@@ -17,6 +17,8 @@ date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
 
 def msnbc_run():
 
+    print('msnbc')
+
     data = {}
     data['articles'] = []
 
@@ -50,12 +52,18 @@ def msnbc_run():
     msnbc_health.url = 'https://www.nbcnews.com/health'
     msnbc_health.section = 'health'
 
+    # health
+    msnbc_news = msnbc(data)
+    msnbc_news.url = 'https://www.nbcnews.com/'
+    msnbc_news.section = 'news'
+
     msnbc_us.scrape()
     msnbc_politics.scrape()
     msnbc_business.scrape()
     msnbc_science.scrape()
     msnbc_tech.scrape()
     msnbc_health.scrape()
+    msnbc_news.scrape()
 
     filepath = 'msnbc/msnbc-'+date+'.json'
     with open(filepath, 'w') as outfile:

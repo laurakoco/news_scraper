@@ -5,6 +5,8 @@ from scraper import *
 
 def vox_run():
 
+    print('vox')
+
     data = {}
     data['articles'] = []
 
@@ -35,11 +37,17 @@ def vox_run():
     vox_env.url = 'https://www.vox.com/energy-and-environment'
     vox_env.section = 'enviornment'
 
+    # enviornment
+    vox_news = vox(data)
+    vox_news.url = 'https://www.vox.com'
+    vox_news.section = 'news'
+
     vox_politics.scrape()
     vox_science.scrape()
     vox_business.scrape()
     vox_tech.scrape()
     vox_env.scrape()
+    vox_news.scrape()
 
     filepath = 'vox/vox-'+date+'.json'
     with open(filepath, 'w') as outfile:

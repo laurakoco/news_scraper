@@ -5,6 +5,8 @@ from scraper import *
 
 def npr_run():
 
+    print('npr')
+
     data = {}
     data['articles'] = []
 
@@ -46,13 +48,21 @@ def npr_run():
     npr_science.url = 'https://www.npr.org/sections/science/'
     npr_science.section = 'science'
 
-    # npr_election.scrape()
+    # news
+    npr_news = npr(data)
+    npr_news.url = 'https://www.npr.org'
+    npr_news.section = 'news'
+    npr_news.article_heading_id = ''
+    npr_news.article_element = 'h3'
+
+    npr_election.scrape()
     npr_national.scrape()
     npr_politics.scrape()
     npr_health.scrape()
     npr_business.scrape()
     npr_tech.scrape()
     npr_science.scrape()
+    # npr_news.scrape()
 
     filepath = 'npr/npr-'+date+'.json'
     with open(filepath, 'w') as outfile:

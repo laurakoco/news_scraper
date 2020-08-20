@@ -5,6 +5,8 @@ from scraper import *
 
 def marketwatch_run():
 
+    print('market watch')
+
     # date = datetime.datetime.now().strftime("%Y-%m-%d-%I%p")
 
     data = {}
@@ -20,8 +22,14 @@ def marketwatch_run():
     marketwatch_election.url = 'https://www.marketwatch.com/economy-politics/election-2020?mod=side_nav'
     marketwatch_election.section = 'politics'
 
+    # news
+    marketwatch_news = marketwatch(data)
+    marketwatch_news.url = 'https://www.marketwatch.com/'
+    marketwatch_news.section = 'news'
+
     marketwatch_politics.scrape()
     marketwatch_election.scrape()
+    marketwatch_news.scrape()
 
     filepath = 'marketwatch/marketwatch-'+date+'.json'
     with open(filepath, 'w') as outfile:

@@ -6,6 +6,8 @@ import os
 
 def cp_run():
 
+    print('christian post')
+
     # date = datetime.datetime.now().strftime("%Y-%m-%d")
 
     data = {}
@@ -26,9 +28,15 @@ def cp_run():
     cp_business.url = 'https://www.christianpost.com/business'
     cp_business.section = 'business'
 
+    # news
+    cp_news = cp(data)
+    cp_news.url = 'https://www.christianpost.com/'
+    cp_news.section = 'news'
+
     cp_politics.scrape()
     cp_us.scrape()
     cp_business.scrape()
+    cp_news.scrape()
 
     filepath = 'cp/cp-'+date+'.json'
     with open(filepath, 'w') as outfile:

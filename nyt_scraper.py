@@ -5,6 +5,8 @@ from scraper import *
 
 def nyt_run():
 
+    print('new york times')
+
     data = {}
     data['articles'] = []
 
@@ -60,15 +62,20 @@ def nyt_run():
     nyt_health.article_heading_id = 'css-171kk9w e4e4i5l1'
     nyt_health.section = 'health'
 
+    # news
+    nyt_news = nyt(data)
+    nyt_news.url = 'https://www.nytimes.com/'
+    nyt_news.article_heading_id = 'css-1rvhhh9 e1whdksc1'
+    nyt_news.section = 'news'
+
     nyt_us.scrape()
     nyt_politics.scrape()
     nyt_election.scrape()
-
     nyt_business.scrape()
-
     nyt_tech.scrape()
     nyt_science.scrape()
     nyt_health.scrape()
+    #nyt_news.scrape()
 
     filepath = 'nyt/nyt-'+date+'.json'
     with open(filepath, 'w') as outfile:
