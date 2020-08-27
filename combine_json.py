@@ -25,6 +25,7 @@ publishers = ['ap',
               'reuters',
               'sun',
               'tennessee',
+              'usatoday',
               'vox',
               'washpost'
 ]

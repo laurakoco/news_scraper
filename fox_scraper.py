@@ -50,12 +50,11 @@ def fox_run():
     fox_news.base_url_required = False
 
     fox_us.scrape()
-    fox_politics.scrape()
-    fox_health.scrape()
+    #fox_politics.scrape()
+    #fox_health.scrape()
     fox_science.scrape()
     fox_tech.scrape()
     fox_news.scrape()
-
 
     filepath = 'fox/fox-'+date+'.json'
     with open(filepath, 'w') as outfile:

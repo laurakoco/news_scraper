@@ -53,9 +53,6 @@ class scraper:
             # get link of article
             link = coverpage_news[n].find('a')['href']
 
-            if 'foxbusiness' in link or 'iowa-governor' in link:
-                continue
-
             if self.base_url_required == True:
                 link = self.base_url + link
 
@@ -603,7 +600,6 @@ class people(scraper):
 
         self.url = 'n/a'
         self.section = 'n/a'
-
 
 # tennessee
 class tennessee(scraper):

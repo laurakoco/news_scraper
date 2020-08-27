@@ -164,9 +164,9 @@ def cnn_run():
 
     cnn_us.scrape()
     #cnn_health.scrape()
-    cnn_business.scrape()
+    #cnn_business.scrape()
     cnn_tech.scrape()
-    # cnn_news.scrape()
+    cnn_news.scrape()
 
     filepath = 'cnn/cnn-'+date+'.json'
     with open(filepath, 'w') as outfile:

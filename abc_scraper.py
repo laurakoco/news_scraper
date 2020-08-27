@@ -64,7 +64,7 @@ class abc_scraper:
             if self.base_url_required == True:
                 link = self.base_url + link
 
-            print(self.section+': '+title)
+            print(str(n) + ' ' + self.section+': '+title)
 
             # read content
             article = requests.get(link)
